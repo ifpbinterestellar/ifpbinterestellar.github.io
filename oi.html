@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interestellar</title>
+    <style>
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            margin: 0;
+            padding: 2rem 20px 0;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start; /* Alinha o conteúdo no topo */
+            align-items: center;
+            background-color: #000;
+            color: #fff;
+            text-align: center;
+            box-sizing: border-box; /* Melhora o cálculo de tamanho com padding */
+        }
+        footer {
+            margin-top: auto; /* Garante que o footer fique no final da página */
+            padding: 1rem;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            text-align: center;
+        }
+        h1 {
+            color: #ffffff;
+            text-transform: uppercase;
+            font-size: 3em;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.5rem;
+            /* A animação de digitação é totalmente controlada por JavaScript */
+            white-space: nowrap; /* Evita que o título quebre linha durante a animação */
+        }
+        h2 {
+            color: #ffffff;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        p {
+            font-size: 1.2em;
+            max-width: 600px;
+            line-height: 1.6;
+            color: #ccc;
+            opacity: 0;
+            /* A transição foi removida para não conflitar com a animação de digitação do JS */
+            transform: translateY(20px); 
+        }
+
+        /* Classe para tornar o conteúdo visível com a transição */
+        .visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+
+        .cta-button {
+            display: inline-block;
+            margin-top: 2rem;
+            padding: 1rem 2rem;
+            border: 2px solid #ffffff;
+            border-radius: 5px;
+            color: #ffffff;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-weight: bold;
+            transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
+        }
+        .cta-button:hover {
+            background-color: #ffffff;
+            color: #000;
+            box-shadow: 0 0 20px #ffffff;
+        }
+        /* CSS */
+        .estrelas {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #000;
+        z-index: -1;
+        }
+
+        .estrelas .estrela {
+        position: absolute;
+        width: 2px;
+        height: 2px;
+        background-color: #fff;
+        border-radius: 50%;
+        box-shadow: 0 0 10px #fff;
+        animation: twinkle 2s infinite;
+        }
+
+        @keyframes twinkle {
+        0% {
+            transform: scale(1);
+            opacity: 1;
+        }
+        50% {
+            transform: scale(1.2);
+            opacity: 0.5;
+        }
+        100% {
+            transform: scale(1);
+            opacity: 1;
+        }
+        }
+
+        /* Keyframes do cursor piscando */
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: #ffffff; } /* Cor do cursor consistente com o tema */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="estrelas"></div>
+
+   
+
+    <h1>Interestellar</h1>
+    <h2>Dias de apresentação:</h2>
+    <p>xxxxxxxxxxxx</p>
+    <h2>Onde nos encontrar?</h2>
+    <p>xxxxxxxxxxxx</p>
+    
+    
+    <footer>Para mais informações nos veja em @InterestellarIFPB</footer>
+    <script>
+// Script para gerar estrelas (mantido)
+const estrelas = document.querySelector('.estrelas');
+
+for (let i = 0; i < 100; i++) {
+  const estrela = document.createElement('div');
+  estrela.classList.add('estrela');
+  estrela.style.top = `${Math.random() * 100}%`;
+  estrela.style.left = `${Math.random() * 100}%`;
+  estrela.style.animationDelay = `${Math.random() * 2}s`;
+  estrelas.appendChild(estrela);
+}
+
+// Novo script para animação sequencial com digitação
+document.addEventListener('DOMContentLoaded', async () => {
+    // --- Elementos ---
+    const titleElement = document.querySelector('h1');
+    const h2Elements = document.querySelectorAll('h2');
+    const pElements = document.querySelectorAll('p');
+
+    // --- Funções Auxiliares ---
+    const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+    function typeWriter(element) {
+        return new Promise(resolve => {
+            const originalText = element.dataset.text;
+            element.textContent = '';
+            element.style.opacity = 1;
+            element.style.transform = 'translateY(0)';
+            element.style.borderRight = '.15em solid #ffffff';
+            element.style.animation = 'blink-caret .75s step-end infinite';
+
+            let i = 0;
+            function type() {
+                if (i < originalText.length) {
+                    element.textContent += originalText.charAt(i);
+                    i++;
+                    const randomDelay = Math.floor(Math.random() * (120 - 40 + 1) + 40);
+                    setTimeout(type, randomDelay);
+                } else {
+                    element.style.animation = 'none'; // Para o cursor de piscar
+                    setTimeout(() => {
+                        element.style.borderRightColor = 'transparent'; // Esconde o cursor
+                        resolve();
+                    }, 500);
+                }
+            }
+            type();
+        });
+    }
+
+    // --- Preparação ---
+    // Guarda o texto original e limpa o conteúdo para a animação
+    document.querySelectorAll('h1, p').forEach(el => {
+        el.dataset.text = el.textContent;
+        el.textContent = '';
+    });
+
+    // --- Sequência de Animação ---
+    await wait(1000); // Atraso inicial
+
+    await typeWriter(titleElement);
+    await wait(300);
+
+    h2Elements[0].classList.add('visible');
+    await wait(400);
+    await typeWriter(pElements[0]);
+    await wait(300);
+
+    h2Elements[1].classList.add('visible');
+    await wait(400);
+    await typeWriter(pElements[1]);
+});
+</script>
+</body>
+</html>
