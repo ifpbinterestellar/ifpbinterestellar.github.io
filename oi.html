@@ -67,6 +67,12 @@
             opacity: 0;
         }
 
+        .final-phrase {
+            margin-top: 2rem;
+            font-style: italic;
+            color: #ffffff; /* Cor de destaque para a frase final */
+        }
+
         /* Classe para tornar o conteúdo visível com a transição */
         .visible {
             opacity: 1;
@@ -162,12 +168,13 @@
    
 
     <h1>Interestelar</h1>
-    <h2>Dias de apresentação:</h2>
+    <h2>Dias de apresentação</h2>
     <p>De 26 a 29 de setembro de 2025</p>
     <h2>Onde nos encontrar?</h2>
     <p>IFPB - Campus Monteiro</p>
     <p>Bloco C - Sala 7</p>
     
+    <p class="final-phrase">Se algo pode dar errado, dará.</p>
     
     
     <footer><a href="https://www.instagram.com/p/DORWrRikY3A/">Clique aqui para acessar nossa página no Instagram @interestelar_tear</a></footer>
@@ -244,6 +251,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     await typeWriter(pElements[1]);
     await wait(300);
     await typeWriter(pElements[2]);
+    await wait(300);
+    await typeWriter(pElements[3]); // Anima a nova frase final
 });
 </script>
 </body>
