@@ -12,7 +12,7 @@
             font-family: 'Space Grotesk', sans-serif;
             margin: 0;
             padding: 0 20px;
-            overflow: hidden;
+            overflow-y: auto; /* Permite rolagem se necessário */
             height: 100vh;
             display: flex;
             flex-direction: column;
@@ -21,6 +21,7 @@
             background-color: #000;
             color: #fff;
             text-align: center;
+            box-sizing: border-box;
         }
         h1 {
             color: #ffffff;
@@ -90,13 +91,24 @@
             opacity: 1;
         }
         }
+
+        /* Media Queries para Responsividade */
+        @media (max-width: 768px) {
+            p {
+                font-size: 1.1em;
+            }
+            .cta-button {
+                padding: 0.8rem 1.5rem;
+                font-size: 0.9em;
+            }
+        }
     </style>
 </head>
 <body>
 
     <div class="estrelas"></div>
 
-    <h1>Interestellar</h1>
+    
     <p>Vivencie a história do nosso lugar nas estrelas.</p>
     <a href="oi.html" class="cta-button">Iniciar a Jornada</a>
 

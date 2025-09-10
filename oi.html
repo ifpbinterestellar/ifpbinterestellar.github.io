@@ -11,12 +11,12 @@
         body {
             font-family: 'Space Grotesk', sans-serif;
             margin: 0;
-            padding: 2rem 20px 0;
-            overflow: hidden;
+            padding: 6rem 20px 4rem; /* Espaçamento para header/footer fixos */
+            overflow-y: auto; /* Permite rolagem se o conteúdo for muito grande */
             height: 100vh;
             display: flex;
             flex-direction: column;
-            justify-content: flex-start; /* Alinha o conteúdo no topo */
+            justify-content: center; /* Alinha o conteúdo no centro */
             align-items: center;
             background-color: #000;
             color: #fff;
@@ -24,27 +24,40 @@
             box-sizing: border-box; /* Melhora o cálculo de tamanho com padding */
         }
         footer {
-            margin-top: auto; /* Garante que o footer fique no final da página */
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            margin: 0;
             padding: 1rem;
             width: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
+            background-color: #000; /* Fundo sólido para consistência */
             color: #fff;
             text-align: center;
+            z-index: 10;
         }
         h1 {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 1rem 0;
+            background: #000; /* Fundo sólido para cobrir o conteúdo que passa por trás */
+            z-index: 10;
             color: #ffffff;
             text-transform: uppercase;
             font-size: 3em;
             letter-spacing: 0.1em;
             margin-bottom: 0.5rem;
-            /* A animação de digitação é totalmente controlada por JavaScript */
             white-space: nowrap; /* Evita que o título quebre linha durante a animação */
+        }
+        a {
+            color: #ffffff;
+            text-decoration: none;
         }
         h2 {
             color: #ffffff;
             opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            transition: opacity 0.6s ease-out;
         }
         p {
             font-size: 1.2em;
@@ -52,14 +65,12 @@
             line-height: 1.6;
             color: #ccc;
             opacity: 0;
-            /* A transição foi removida para não conflitar com a animação de digitação do JS */
-            transform: translateY(20px); 
         }
 
         /* Classe para tornar o conteúdo visível com a transição */
         .visible {
             opacity: 1;
-            transform: translateY(0);
+            /* A propriedade transform foi removida para que o conteúdo não mude de posição */
         }
 
 
@@ -121,6 +132,27 @@
             from, to { border-color: transparent }
             50% { border-color: #ffffff; } /* Cor do cursor consistente com o tema */
         }
+
+        /* Media Queries para Responsividade */
+        @media (max-width: 768px) {
+            body {
+                padding: 7rem 1rem 5rem; /* Ajusta o espaçamento para telas menores */
+            }
+            h1 {
+                font-size: 1.8em;
+                white-space: normal; /* Permite que o título quebre a linha */
+                line-height: 1.3;
+            }
+            h2 {
+                font-size: 1.3em;
+            }
+            p {
+                font-size: 1em;
+            }
+            footer {
+                font-size: 0.8em;
+            }
+        }
     </style>
 </head>
 <body>
@@ -129,14 +161,16 @@
 
    
 
-    <h1>Interestellar</h1>
+    <h1>Interestelar</h1>
     <h2>Dias de apresentação:</h2>
-    <p>xxxxxxxxxxxx</p>
+    <p>23-29/09/2025 </p>
     <h2>Onde nos encontrar?</h2>
-    <p>xxxxxxxxxxxx</p>
+    <p>IFPB - Campus Monteiro</p>
+    <p>Bloco C - Sala 7</p>
     
     
-    <footer>Para mais informações nos veja em @InterestellarIFPB</footer>
+    
+    <footer><a href="https://www.instagram.com/p/DORWrRikY3A/">Clique aqui para acessar nossa página no Instagram @interestelar_tear</a></footer>
     <script>
 // Script para gerar estrelas (mantido)
 const estrelas = document.querySelector('.estrelas');
@@ -165,7 +199,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             const originalText = element.dataset.text;
             element.textContent = '';
             element.style.opacity = 1;
-            element.style.transform = 'translateY(0)';
             element.style.borderRight = '.15em solid #ffffff';
             element.style.animation = 'blink-caret .75s step-end infinite';
 
@@ -209,6 +242,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     h2Elements[1].classList.add('visible');
     await wait(400);
     await typeWriter(pElements[1]);
+    await wait(300);
+    await typeWriter(pElements[2]);
 });
 </script>
 </body>
