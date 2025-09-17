@@ -6,7 +6,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interestellar</title>
+    <title>Interestelar</title>
     <style>
         body {
             font-family: 'Space Grotesk', sans-serif;
@@ -168,13 +168,14 @@
    
 
     <h1>Interestelar</h1>
-    <h2>Dias de apresentação</h2>
-    <p>De 23 a 26 de setembro</p>
+    <h2>Dias e horários de apresentação</h2>
+    <p>Dia 23/09: das 13:30 às 17:30.</p>
+    <p>Dia 24/09: das 08:00 às 11:00 e das 13:30 às 17:30.</p>
+    <p>Dias 25/09 e 26/09: das 08:00 às 11:30.</p>
     <h2>Onde nos encontrar?</h2>
-    <p>IFPB - Campus Monteiro</p>
-    <p>Bloco C - Sala 7</p>
+    <p>IFPB - Campus Monteiro<br>Bloco C - Sala 7</p>
     
-    <p class="final-phrase">"Se algo pode dar errado, então dará"</p>
+    <p class="final-phrase">"Tudo que possa acontecer, vai acontecer."</p>
     
     
     <footer><a href="https://www.instagram.com/p/DORWrRikY3A/">Clique aqui para acessar nossa página no Instagram @interestelar_tear</a></footer>
@@ -203,16 +204,30 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     function typeWriter(element) {
         return new Promise(resolve => {
-            const originalText = element.dataset.text;
-            element.textContent = '';
+            const originalHTML = element.dataset.htmlContent;
+            element.innerHTML = '';
             element.style.opacity = 1;
             element.style.borderRight = '.15em solid #ffffff';
             element.style.animation = 'blink-caret .75s step-end infinite';
 
             let i = 0;
             function type() {
-                if (i < originalText.length) {
-                    element.textContent += originalText.charAt(i);
+                if (i < originalHTML.length) {
+                    const char = originalHTML.charAt(i);
+                    if (char === '<') {
+                        const closingTagIndex = originalHTML.indexOf('>', i);
+                        if (closingTagIndex !== -1) {
+                            // É uma tag, anexa de uma vez
+                            element.innerHTML += originalHTML.substring(i, closingTagIndex + 1);
+                            i = closingTagIndex;
+                        } else {
+                            // Malformado, apenas anexa o caractere
+                            element.innerHTML += char;
+                        }
+                    } else {
+                        // É um caractere normal
+                        element.innerHTML += char;
+                    }
                     i++;
                     const randomDelay = Math.floor(Math.random() * (120 - 40 + 1) + 40);
                     setTimeout(type, randomDelay);
@@ -229,10 +244,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     // --- Preparação ---
-    // Guarda o texto original e limpa o conteúdo para a animação
+    // Guarda o HTML original e limpa o conteúdo para a animação
     document.querySelectorAll('h1, p').forEach(el => {
-        el.dataset.text = el.textContent;
-        el.textContent = '';
+        el.dataset.htmlContent = el.innerHTML;
+        el.innerHTML = '';
     });
 
     // --- Sequência de Animação ---
@@ -241,18 +256,24 @@ document.addEventListener('DOMContentLoaded', async () => {
     await typeWriter(titleElement);
     await wait(300);
 
+    // Seção "Dias de apresentação"
     h2Elements[0].classList.add('visible');
     await wait(400);
     await typeWriter(pElements[0]);
     await wait(300);
-
-    h2Elements[1].classList.add('visible');
-    await wait(400);
     await typeWriter(pElements[1]);
     await wait(300);
     await typeWriter(pElements[2]);
-    await wait(300);
-    await typeWriter(pElements[3]); // Anima a nova frase final
+    await wait(500);
+
+    // Seção "Onde nos encontrar?"
+    h2Elements[1].classList.add('visible');
+    await wait(400);
+    await typeWriter(pElements[3]);
+    await wait(500);
+
+    // Frase final
+    await typeWriter(pElements[4]);
 });
 </script>
 </body>
